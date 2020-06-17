@@ -15,8 +15,8 @@ import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import Parallax from "./Header/Parallax";
 import landingPageImg from "../assest/images/landingPageImg.jpg";
-import linkShare from "../assest/images/linkShare.jpg";
-import chill from "../assest/images/chill.jpg";
+import linkShare from "../assest/images/linkShare.png";
+import chill from "../assest/images/chill.png";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import RisedCard from "./General/RisedCard";
 import TwitterIcon from "@material-ui/icons/Twitter";
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
         height: 245,
     },
     primary: {
-        color: theme.palette.primary.light + "!important",
+        color: theme.palette.primary.main + "!important",
     },
     primaryDark: {
         color: theme.palette.primary.dark + "!important",
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
         height: 100,
     },
 }));
-const Home = () => {
+const Home = (props) => {
     const classes = useStyles();
     const handleProfileClick = (type) => (event) => {
         if (type === "git") {
@@ -59,6 +59,13 @@ const Home = () => {
             window.open("https://gitlab.com/imakshar");
         } else if (type === "in") {
             window.open("https://www.linkedin.com/in/iamakshar");
+        }
+    };
+    const handleClick = (type) => (event) => {
+        if (type === "dashboard") {
+            props.history.push("/dashboard");
+        } else if (type === "signin") {
+            props.history.push("/signin");
         }
     };
     return (
@@ -79,20 +86,38 @@ const Home = () => {
                                 alignItems="center"
                                 justifyContent="center"
                                 width="100%"
-                                mx={4}
+                                px={4}
                             >
                                 <Box width="100%">
                                     <Typography
                                         variant="h4"
                                         className={classes.title}
+                                        color="textPrimary"
                                     >
                                         URL shortening service and a link
-                                        management platform... a{" "}
-                                        <strong className={classes.primary}>
-                                            bit.ly{" "}
-                                        </strong>
-                                        clone
+                                        management platform...
                                     </Typography>
+                                    <Box
+                                        display="flex"
+                                        justifyContent="flex-end"
+                                        width="100%"
+                                    >
+                                        <Typography
+                                            variant="h5"
+                                            className={classes.title}
+                                            color="textSecondary"
+                                        >
+                                            <em>
+                                                a{" "}
+                                                <strong
+                                                    className={classes.primary}
+                                                >
+                                                    bit.ly{" "}
+                                                </strong>
+                                                short url clone
+                                            </em>
+                                        </Typography>
+                                    </Box>
                                 </Box>
                             </Box>
                         </Grid>
@@ -242,14 +267,33 @@ const Home = () => {
                                         justifyContent="center"
                                         py={4}
                                     >
-                                        <Box>
-                                            <Button
-                                                variant="contained"
-                                                color="primary"
-                                            >
-                                                Get Started for free
-                                            </Button>
-                                        </Box>
+                                        {localStorage.getItem(
+                                            "short_link_auth"
+                                        ) ? (
+                                            <Box>
+                                                <Button
+                                                    variant="contained"
+                                                    color="primary"
+                                                    onClick={handleClick(
+                                                        "dashboard"
+                                                    )}
+                                                >
+                                                    Go to Dashboard
+                                                </Button>
+                                            </Box>
+                                        ) : (
+                                            <Box>
+                                                <Button
+                                                    variant="contained"
+                                                    color="primary"
+                                                    onClick={handleClick(
+                                                        "signin"
+                                                    )}
+                                                >
+                                                    Get Started for free
+                                                </Button>
+                                            </Box>
+                                        )}
                                     </Box>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={12}>

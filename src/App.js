@@ -28,6 +28,9 @@ import { SnackbarProvider } from "notistack";
 
 import Home from "./components/Home";
 import { theme } from "./theme.js";
+import { PrivateRoute } from "./components/Routes/Routes.js";
+import Dashboard from "./components/Dashboard.js";
+import SignIn from "./components/General/SignIn.js";
 
 /* -------------------------------------------------------------------------- */
 /*                               Create ws Link                               */
@@ -97,12 +100,9 @@ function App() {
                     <SnackbarProvider maxSnack={4}>
                         <Router>
                             <Switch>
-                                <Route
-                                    exact
-                                    path="/"
-                                    title="Home "
-                                    component={Home}
-                                />
+                                <Route exact path="/" title="Home " component={Home}/>
+                                <Route exact path="/signin" title="Home " component={SignIn}/>
+                                <PrivateRoute  exact path="/dashboard" title="Home" component={Dashboard} />
                             </Switch>
                         </Router>
                     </SnackbarProvider>

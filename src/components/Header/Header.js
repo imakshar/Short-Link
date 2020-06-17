@@ -7,6 +7,8 @@ import {
     makeStyles,
     Typography,
 } from "@material-ui/core";
+import AuthRequired from "../General/AuthRequired";
+import { useHistory } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
     transparent: {
         backgroundColor: "transparent !important",
@@ -37,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Header = (props) => {
     const classes = useStyles();
+    const history = useHistory();
     React.useEffect(() => {
         if (props.changeColorOnScroll) {
             window.addEventListener("scroll", headerColorChange);
@@ -69,6 +72,16 @@ const Header = (props) => {
                 .classList.remove(classes[changeColorOnScroll.color]);
         }
     };
+    const handleClick = (type) => (event) => {
+        if (type === "dashboard") {
+            history.push("/dashboard");
+        } else if (type === "signin") {
+            history.push("/signin");
+        } else if (type === "signout") {
+            localStorage.removeItem("short_link_auth");
+            window.location.href = "/";
+        }
+    };
     return (
         <AppBar className={classes.transparent}>
             <Toolbar>
@@ -80,14 +93,40 @@ const Header = (props) => {
                             </Typography>
                         </Button>
                     </Box>
-                    <Box flexShrink={2} px={1}>
-                        <Button
-                            className={classes.secondaryLight}
-                            variant="contained"
-                        >
-                            Login
-                        </Button>
-                    </Box>
+                    <AuthRequired>
+                        <Box flexShrink={2} px={1}>
+                            <Button
+                                className={classes.secondaryLight}
+                                variant="contained"
+                                onClick={handleClick("dashboard")}
+                            >
+                                Dashboard
+                            </Button>
+                        </Box>
+                    </AuthRequired>
+                    <AuthRequired
+                        fallback={
+                            <Box flexShrink={2} px={1}>
+                                <Button
+                                    className={classes.secondaryLight}
+                                    variant="contained"
+                                    onClick={handleClick("signin")}
+                                >
+                                    Login
+                                </Button>
+                            </Box>
+                        }
+                    >
+                        <Box flexShrink={2} px={1}>
+                            <Button
+                                className={classes.secondaryLight}
+                                variant="contained"
+                                onClick={handleClick("signout")}
+                            >
+                                Signout
+                            </Button>
+                        </Box>
+                    </AuthRequired>
                 </Box>
             </Toolbar>
         </AppBar>
