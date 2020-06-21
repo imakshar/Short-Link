@@ -1,10 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
@@ -12,8 +10,10 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { Icon } from "@material-ui/core";
-
+import { Icon, CircularProgress } from "@material-ui/core";
+import { useMutation } from "react-apollo";
+import { SIGNIN } from "../../queries";
+import Alert from "@material-ui/lab/Alert";
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
@@ -47,12 +47,42 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SignIn() {
+const initialState = {
+    email: "j@x.co",
+    password: "asdfghjk",
+};
+export default function SignIn(props) {
     const classes = useStyles();
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        localStorage.setItem("short_link_auth", "hello");
-        window.location.href = "/";
+    const [state, setState] = useState(initialState);
+    const [signin_call, { data, error, loading }] = useMutation(SIGNIN);
+
+    const handelCacel = () => {
+        props.history.push("/");
+    };
+    const handelSubmit = async (event) => {
+        event.preventDefault();
+
+        signin_call({
+            variables: {
+                ...state,
+            },
+        })
+            .then()
+            .catch((error) => {});
+        return false;
+    };
+    useEffect(() => {
+        if (data && !error && data?.signin) {
+            localStorage.setItem("short_link_auth", data.signin.token);
+            window.location.href = "/";
+        }
+    }, [data, error]);
+    const handleChange = (key) => (event) => {
+        let value = event.target.value;
+        setState((s) => ({
+            ...s,
+            [key]: value,
+        }));
     };
     return (
         <Container component="main" maxWidth="xs">
@@ -64,7 +94,7 @@ export default function SignIn() {
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
-                <form className={classes.form} onSubmit={handleSubmit}>
+                <form className={classes.form} noValidate>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -76,6 +106,9 @@ export default function SignIn() {
                         name="email"
                         autoComplete="email"
                         autoFocus
+                        value={state.email}
+                        onChange={handleChange("email")}
+                        disabled={loading}
                     />
                     <TextField
                         variant="outlined"
@@ -86,26 +119,67 @@ export default function SignIn() {
                         label="Password"
                         type="password"
                         id="password"
+                        value={state.password}
+                        disabled={loading}
                         autoComplete="current-password"
+                        onChange={handleChange("password")}
                     />
-
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
+                    <Box
+                        display="flex"
+                        alignItems="center"
+                        width="100%"
+                        justifyContent="space-between"
                     >
-                        Sign In
-                    </Button>
-                    <Grid container>
-                        <Grid item xs>
+                        <Box width="100%" pr={2}>
+                            {loading ? (
+                                <CircularProgress />
+                            ) : (
+                                <Button
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.submit}
+                                    disabled={
+                                        loading ||
+                                        !(state.email.length &&
+                                            state.password.length)
+                                    }
+                                    onClick={handelSubmit}
+                                >
+                                    Sign In
+                                </Button>
+                            )}
+                        </Box>
+                        <Box width="100%" pl={2}>
+                            <Button
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                                onClick={handelCacel}
+                                disabled={loading}
+                            >
+                                Cancel
+                            </Button>
+                        </Box>
+                    </Box>
+                    <Grid container justify="flex-end">
+                        {/* <Grid item xs>
                             <Link href="#" variant="body2">
                                 Forgot password?
                             </Link>
-                        </Grid>
+                        </Grid> */}
+                        {error ? (
+                            <Grid item sm={12} md={12}>
+                                <Box width="100%" pb={2}>
+                                    <Alert severity="error">
+                                        {error?.graphQLErrors[0]?.message}
+                                    </Alert>
+                                </Box>
+                            </Grid>
+                        ) : null}
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link href="/signup" variant="body2">
                                 {"Don't have an account? Sign Up"}
                             </Link>
                         </Grid>
