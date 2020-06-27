@@ -44,12 +44,12 @@ const NavBar = () => {
     };
     return (
         <React.Fragment>
-            <AppBar position="static" className={classes.primaryLight}>
+            <AppBar position="fixed" className={classes.primaryLight}>
                 <Toolbar>
                     <Box px={2} display="flex" alignItems="center" width="100%">
                         <Box flexShrink={1} width="100%">
                             <Button variant="text" onClick={handleLogoClick}>
-                                <Typography variant="h5" color="textPrimary">
+                                <Typography variant="h6" color="textPrimary">
                                     <strong>Short Link</strong>
                                 </Typography>
                             </Button>

@@ -12,6 +12,20 @@ export const AUTH_USER = gql`
         }
     }
 `;
+
+export const SHORT_LINKS = gql`
+    query short_links {
+        short_links {
+            id
+            title
+            original_url
+            short_url
+            clicks
+            createdAt
+            updatedAt
+        }
+    }
+`;
 /* -------------------------------------------------------------------------- */
 /*                                  Mutations                                 */
 /* -------------------------------------------------------------------------- */
@@ -33,6 +47,56 @@ export const SIGNIN = gql`
     }
 `;
 
+export const CREATE_SHORTLINK = gql`
+    mutation create_shortLink(
+        $original_url: String!
+        $title: String!
+        $short_url: String
+    ) {
+        create_shortLink(
+            original_url: $original_url
+            title: $title
+            short_url: $short_url
+        ) {
+            id
+            title
+            original_url
+            short_url
+            clicks
+            createdAt
+            updatedAt
+        }
+    }
+`;
+
+export const UPDATE_LINK_INFO = gql`
+    mutation update_link_info(
+        $id: String!
+        $original_url: String!
+        $title: String!
+        $short_url: String!
+    ) {
+        update_link_info(
+            id: $id
+            original_url: $original_url
+            title: $title
+            short_url: $short_url
+        ) {
+            id
+            title
+            original_url
+            short_url
+            clicks
+            createdAt
+            updatedAt
+        }
+    }
+`;
+export const REMOVE_LINK = gql`
+    mutation remove_link($id: String!) {
+        remove_link(id: $id)
+    }
+`;
 /* -------------------------------------------------------------------------- */
 /*                                Subscriptions                               */
 /* -------------------------------------------------------------------------- */

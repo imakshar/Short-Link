@@ -139,7 +139,7 @@ export default function SignUp() {
 
     useEffect(() => {
         if (!res?.loading && res?.data?.signin) {
-            localStorage.setItem("short_link_auth", res.data.signin);
+            localStorage.setItem("short_link_auth", res.data.signin.token);
             window.location.href = "/";
         }
     }, [res.data, res.loading, res]);

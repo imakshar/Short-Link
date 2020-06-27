@@ -42,7 +42,7 @@ const wsLink = new WebSocketLink({
     options: {
         reconnect: true,
         connectionParams: {
-            authToken: localStorage.getItem("token"),
+            authToken: localStorage.getItem("short_link_auth"),
         },
     },
 });
@@ -50,7 +50,7 @@ const wsLink = new WebSocketLink({
 const authLink = setContext((_, { headers }) => {
     /* ------ get the authentication token from local storage if it exists ------ */
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("short_link_auth");
 
     /* ------- return the headers to the context so httpLink can read them ------ */
 
