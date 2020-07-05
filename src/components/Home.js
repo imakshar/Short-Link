@@ -17,8 +17,8 @@ import Parallax from "./Header/Parallax";
 import landingPageImg from "../assest/images/landingPageImg.jpg";
 import linkShare from "../assest/images/linkShare.png";
 import chill from "../assest/images/chill.png";
-import GitHubIcon from "@material-ui/icons/GitHub";
 import RisedCard from "./General/RisedCard";
+import GitHubIcon from "@material-ui/icons/GitHub";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 const useStyles = makeStyles((theme) => ({
@@ -363,44 +363,6 @@ const Home = (props) => {
                                         >
                                             LinkedIn
                                         </Button>
-                                        <Button
-                                            size="medium"
-                                            onClick={handleProfileClick(
-                                                "gitlab"
-                                            )}
-                                            startIcon={
-                                                <GitHubIcon
-                                                    style={{ color: "black" }}
-                                                />
-                                            }
-                                            disableElevation
-                                        >
-                                            GitLab
-                                        </Button>
-                                    </Box>
-                                    <Box
-                                        width="100%"
-                                        display="flex"
-                                        justifyContent="center"
-                                    >
-                                        <Typography
-                                            color="textSecondary"
-                                            variant="h6"
-                                        >
-                                            <strong>
-                                                Source Code Available at{" "}
-                                            </strong>
-                                            {
-                                                <IconButton size="small">
-                                                    <GitHubIcon
-                                                        fontSize="small"
-                                                        style={{
-                                                            color: "black",
-                                                        }}
-                                                    />
-                                                </IconButton>
-                                            }
-                                        </Typography>
                                     </Box>
                                 </Grid>
                             </CardContent>

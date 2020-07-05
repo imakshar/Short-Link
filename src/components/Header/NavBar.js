@@ -8,6 +8,7 @@ import {
     makeStyles,
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import AuthRequired from "../General/AuthRequired";
 const useStyles = makeStyles((theme) => ({
     primaryDark: {
         backgroundColor: theme.palette.primary.dark,
@@ -34,6 +35,8 @@ const NavBar = () => {
     const handleClick = (type) => (event) => {
         if (type === "dashboard") {
             history.push("/dashboard");
+        } else if (type === "signin") {
+            history.push("/signin");
         } else if (type === "signout") {
             localStorage.removeItem("short_link_auth");
             window.location.href = "/";
@@ -56,23 +59,37 @@ const NavBar = () => {
                         </Box>
 
                         <Box flexShrink={2} px={1}>
-                            <Button
-                                variant="contained"
-                                className={classes.secondaryLight}
-                                onClick={handleClick("dashboard")}
-                            >
-                                Dashboard
-                            </Button>
+                            <AuthRequired>
+                                <Button
+                                    variant="contained"
+                                    className={classes.secondaryLight}
+                                    onClick={handleClick("dashboard")}
+                                >
+                                    Dashboard
+                                </Button>
+                            </AuthRequired>
                         </Box>
 
                         <Box flexShrink={2} px={1}>
-                            <Button
-                                className={classes.secondaryLight}
-                                variant="contained"
-                                onClick={handleClick("signout")}
+                            <AuthRequired
+                                fallback={
+                                    <Button
+                                        className={classes.secondaryLight}
+                                        variant="contained"
+                                        onClick={handleClick("signin")}
+                                    >
+                                        Login
+                                    </Button>
+                                }
                             >
-                                Signout
-                            </Button>
+                                <Button
+                                    className={classes.secondaryLight}
+                                    variant="contained"
+                                    onClick={handleClick("signout")}
+                                >
+                                    Signout
+                                </Button>
+                            </AuthRequired>
                         </Box>
                     </Box>
                 </Toolbar>

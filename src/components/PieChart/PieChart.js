@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { PieChart, Pie, Sector } from "recharts";
+import { PieChart, Pie, Sector, ResponsiveContainer } from "recharts";
 
 const data = [
     { name: "Group A", value: 400 },
@@ -20,7 +20,6 @@ const renderActiveShape = (props) => {
         fill,
         payload,
         percent,
-        
     } = props;
     const sin = Math.sin(-RADIAN * midAngle);
     const cos = Math.cos(-RADIAN * midAngle);
@@ -90,28 +89,23 @@ const CustomPieChart = (props) => {
         setActiveIndex(index);
     };
     return (
-        <PieChart
-            width={600}
-            height={400}
-            margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-            cx={100}
-            cy={100}
-            innerRadius={8}
-            outerRadius={8}
-        >
-            <Pie
-                dataKey="value"
-                activeIndex={activeIndex}
-                activeShape={renderActiveShape}
-                data={props.data || data}
-                cx={300}
-                cy={200}
-                innerRadius={60}
-                outerRadius={80}
-                fill="#8884d8"
-                onMouseEnter={onPieEnter}
-            />
-        </PieChart>
+        <ResponsiveContainer width="100%" height={400}>
+            <PieChart>
+                <Pie
+                    dataKey="value"
+                    activeIndex={activeIndex}
+                    activeShape={renderActiveShape}
+                    data={props.data || data}
+                    fill="#8884d8"
+                    cx="50%"
+                    cy={200}
+                    innerRadius={60}
+                    outerRadius={80}
+                    legendType="circle"
+                    onMouseEnter={onPieEnter}
+                />
+            </PieChart>
+        </ResponsiveContainer>
     );
 };
 

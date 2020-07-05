@@ -4,6 +4,7 @@ import {
     Box,
     List,
     ListItem,
+    Link,
     ListItemText,
     Typography,
     Divider,
@@ -13,10 +14,11 @@ import {
     Button,
     IconButton,
     CircularProgress,
+    Hidden,
 } from "@material-ui/core";
 import ScrollArea from "react-scrollbar";
 import moment from "moment";
-import PieChart from "./PieChart/PieChart";
+import CustomPieChart from "./PieChart/PieChart";
 import CreateLinkDrawer from "./CreateLinkDrawer";
 import Loading from "./Loader/Loading";
 import { useQuery, useMutation } from "react-apollo";
@@ -76,7 +78,7 @@ const Dashboard = () => {
             }
             return {
                 name: e.title,
-                value: e.clicks || 1,
+                value: e.clicks || 0,
                 url: e.short_url,
             };
         });
@@ -105,9 +107,12 @@ const Dashboard = () => {
     const handleDelete = () => {
         delete_call({
             variables: {
-                id: shortLinks[activeIndex].id,
+                id: shortLinks[activeIndex]?.id,
             },
         });
+    };
+    const handleShortLinkClick = (link) => (event) => {
+        window.open(link);
     };
     return (
         <Grid container spacing={2}>
@@ -141,61 +146,9 @@ const Dashboard = () => {
                         </Box>
                     </Grid>
                     {shortLinks.length ? (
-                        <React.Fragment>
-                            <Grid item sm={12} xs={12} md={12}>
-                                {clicksAvailable ? (
-                                    <Box
-                                        display="flex"
-                                        width="100%"
-                                        alignItems="center"
-                                        justifyContent="flex-start"
-                                        flexWrap="wrap"
-                                    >
-                                        <Box>
-                                            <img
-                                                src="/clicks.png"
-                                                width="400"
-                                                height="500"
-                                                alt="oops"
-                                            />
-                                        </Box>
-                                        <Box>
-                                            <PieChart data={pieChartData} />
-                                        </Box>
-                                    </Box>
-                                ) : (
-                                    <Box
-                                        display="flex"
-                                        width="100%"
-                                        alignItems="center"
-                                        justifyContent="flex-start"
-                                        flexWrap="wrap"
-                                    >
-                                        <Box>
-                                            <img
-                                                src="/noClicks.png"
-                                                width="500"
-                                                height="300"
-                                                alt="oops"
-                                            />
-                                        </Box>
-                                        <Box>
-                                            <Typography
-                                                color="textSecondary"
-                                                variant="h6"
-                                                pt={6}
-                                            >
-                                                <em>
-                                                    No link clicks available at
-                                                    this moment
-                                                </em>
-                                            </Typography>
-                                        </Box>
-                                    </Box>
-                                )}
-                            </Grid>
+                        <Grid container spacing={2}>
                             <Grid item sm={6} xs={12} md={4}>
-                                <Box pl={2}>
+                                <Box px={2}>
                                     <List>
                                         <ListItem
                                             className={
@@ -261,89 +214,164 @@ const Dashboard = () => {
                                     </List>
                                 </Box>
                             </Grid>
-                            <Grid item sm={6} xs={12} md={8}>
-                                <Box
-                                    display="flex"
-                                    alignItems="center"
-                                    justifyContent="flex-start"
-                                    width="100%"
-                                    flexWrap="wrap"
-                                    pt={2}
-                                >
-                                    <Box width="100%">
-                                        <Typography
-                                            variant="subtitle1"
-                                            color="textSecondary"
-                                        >
-                                            <em>
-                                                {`Created at ${moment(
-                                                    shortLinks[activeIndex]
-                                                        ?.createdAt
-                                                ).fromNow()}`}
-                                            </em>
-                                        </Typography>
-                                    </Box>
-                                    <Box width="100%">
-                                        <ListItemText
-                                            primary={
-                                                <Typography
-                                                    color="textPrimary"
-                                                    variant="h4"
-                                                >
-                                                    <strong>
-                                                        {
-                                                            shortLinks[
-                                                                activeIndex
-                                                            ]?.title
-                                                        }
-                                                    </strong>
-                                                </Typography>
-                                            }
-                                            secondary={
-                                                <Typography color="secondary">
-                                                    <em>
-                                                        {`${shortLinks[activeIndex]?.original_url}`}
-                                                    </em>
-                                                </Typography>
-                                            }
-                                        />
-                                    </Box>
-
+                            <Grid container item sm={6} xs={12} md={8}>
+                                <Grid item xs={12}>
                                     <Box
                                         display="flex"
-                                        flexWrap="no-wrap"
-                                        justifyContent="space-between"
                                         alignItems="center"
+                                        justifyContent="flex-start"
+                                        width="100%"
+                                        flexWrap="wrap"
+                                        pt={2}
+                                        px={2}
                                     >
-                                        <Box>
+                                        <Box width="100%">
+                                            <Typography
+                                                variant="subtitle1"
+                                                color="textSecondary"
+                                            >
+                                                <em>
+                                                    {`Created at ${moment(
+                                                        shortLinks[activeIndex]
+                                                            ?.createdAt
+                                                    ).fromNow()}`}
+                                                </em>
+                                            </Typography>
+                                        </Box>
+                                        <Box width="100%">
                                             <ListItemText
                                                 primary={
-                                                    <Typography color="primary">
-                                                        {`${CONST.API_URL}/${shortLinks[activeIndex]?.short_url}`}
+                                                    <Typography
+                                                        color="textPrimary"
+                                                        variant="h4"
+                                                    >
+                                                        <strong>
+                                                            {
+                                                                shortLinks[
+                                                                    activeIndex
+                                                                ]?.title
+                                                            }
+                                                        </strong>
                                                     </Typography>
+                                                }
+                                                secondary={
+                                                    <Link
+                                                        color="secondary"
+                                                        component="button"
+                                                        variant="body2"
+                                                        onClick={handleShortLinkClick(
+                                                            `${shortLinks[activeIndex]?.original_url}`
+                                                        )}
+                                                    >
+                                                        {`${shortLinks[activeIndex]?.original_url}`}
+                                                    </Link>
                                                 }
                                             />
                                         </Box>
-                                        <Box>
-                                            <IconButton onClick={handleEdit}>
-                                                <Icon>edit</Icon>
-                                            </IconButton>
-                                        </Box>
-                                        <Box>
-                                            {res.loading ? (
-                                                <CircularProgress />
-                                            ) : (
+
+                                        <Box
+                                            display="flex"
+                                            flexWrap="wrap"
+                                            justifyContent="flex-start"
+                                            alignItems="center"
+                                        >
+                                            <Box>
+                                                <ListItemText
+                                                    primary={
+                                                        <Link
+                                                            component="button"
+                                                            variant="h6"
+                                                            onClick={handleShortLinkClick(
+                                                                `${CONST.API_URL}/api/${shortLinks[activeIndex]?.short_url}`
+                                                            )}
+                                                        >
+                                                            {`${CONST.API_URL}/api/${shortLinks[activeIndex]?.short_url}`}
+                                                        </Link>
+                                                    }
+                                                />
+                                            </Box>
+                                            <Box>
                                                 <IconButton
-                                                    onClick={handleDelete}
+                                                    onClick={handleEdit}
                                                 >
-                                                    <Icon>delete</Icon>
+                                                    <Icon>edit</Icon>
                                                 </IconButton>
-                                            )}
+                                            </Box>
+                                            <Box>
+                                                {res.loading ? (
+                                                    <CircularProgress />
+                                                ) : (
+                                                    <IconButton
+                                                        onClick={handleDelete}
+                                                    >
+                                                        <Icon>delete</Icon>
+                                                    </IconButton>
+                                                )}
+                                            </Box>
                                         </Box>
                                     </Box>
-                                </Box>
+                                    <Divider />
+                                </Grid>
+                                <Grid container item xs={12}>
+                                    {clicksAvailable ? (
+                                        <Hidden smDown>
+                                            <>
+                                                <Grid item xs={12}>
+                                                    <Box
+                                                        display="flex"
+                                                        width="100%"
+                                                        alignItems="center"
+                                                        justifyContent="center"
+                                                        flexWrap="wrap"
+                                                    >
+                                                        <Box
+                                                            px={4}
+                                                            width="100%"
+                                                        >
+                                                            <CustomPieChart
+                                                                data={
+                                                                    pieChartData
+                                                                }
+                                                            />
+                                                        </Box>
+                                                    </Box>
+                                                </Grid>
+                                            </>
+                                        </Hidden>
+                                    ) : (
+                                        <Box
+                                            display="flex"
+                                            width="100%"
+                                            alignItems="center"
+                                            justifyContent="flex-start"
+                                            flexWrap="wrap"
+                                            px={2}
+                                        >
+                                            <Box>
+                                                <img
+                                                    src="/noClicks.png"
+                                                    width="70%"
+                                                    height="300"
+                                                    alt="oops"
+                                                />
+                                            </Box>
+                                            <Box>
+                                                <Typography
+                                                    color="textSecondary"
+                                                    variant="h6"
+                                                    pt={6}
+                                                >
+                                                    <em>
+                                                        No link clicks available
+                                                        at this moment
+                                                    </em>
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                    )}
+                                </Grid>
                             </Grid>
-                        </React.Fragment>
+                        </Grid>
                     ) : (
                         <Grid item sm={12} md={8} xs={12}>
                             <Box
@@ -357,7 +385,7 @@ const Dashboard = () => {
                                     <img
                                         src="/bg1.png"
                                         width="400"
-                                        height="500"
+                                        height="400"
                                         alt="oops"
                                     />
                                 </Box>
