@@ -8,6 +8,54 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Project Structure
+
+    src
+     ┣ assest
+     ┃ ┗ images
+     ┃ ┃ ┣ React App.htm
+     ┃ ┃ ┣ chill.png
+     ┃ ┃ ┣ landingPageImg.jpg
+     ┃ ┃ ┗ linkShare.png
+     ┣ components
+     ┃ ┣ Footer
+     ┃ ┃ ┗ Footer.js
+     ┃ ┣ General
+     ┃ ┃ ┣ AuthRequired.js
+     ┃ ┃ ┣ ForgotPassword.js
+     ┃ ┃ ┣ NotFoundPage.js
+     ┃ ┃ ┣ RisedCard.js
+     ┃ ┃ ┣ SignIn.js
+     ┃ ┃ ┗ SignUp.js
+     ┃ ┣ Header
+     ┃ ┃ ┣ Header.js
+     ┃ ┃ ┣ NavBar.js
+     ┃ ┃ ┗ Parallax.js
+     ┃ ┣ Loader
+     ┃ ┃ ┣ Loading.js
+     ┃ ┃ ┗ loading.css
+     ┃ ┣ PieChart
+     ┃ ┃ ┗ PieChart.js
+     ┃ ┣ Routes
+     ┃ ┃ ┗ Routes.js
+     ┃ ┣ CreateLinkDrawer.js
+     ┃ ┣ Dashboard.js
+     ┃ ┗ Home.js
+     ┣ utils
+     ┃ ┗ useUser.js
+     ┣ App.js
+     ┣ constants.js
+     ┣ index.js
+     ┣ queries.js
+     ┣ serviceWorker.js
+     ┗ theme.js
+
+## Create constants.js
+
+    export const API_URL = ....
+    export const WS_URL = ....
+    export const STORAGE_URL = ....
+
 ## Available Scripts
 
 In the project directory, you can run:
