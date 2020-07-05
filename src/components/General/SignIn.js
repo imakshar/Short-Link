@@ -141,8 +141,10 @@ export default function SignIn(props) {
                                     className={classes.submit}
                                     disabled={
                                         loading ||
-                                        !(state.email.length &&
-                                            state.password.length)
+                                        !(
+                                            state.email.length &&
+                                            state.password.length
+                                        )
                                     }
                                     onClick={handelSubmit}
                                 >
@@ -164,11 +166,11 @@ export default function SignIn(props) {
                         </Box>
                     </Box>
                     <Grid container justify="flex-end">
-                        {/* <Grid item xs>
-                            <Link href="#" variant="body2">
+                        <Grid item xs>
+                            <Link href="/forgot_passeord" variant="body2">
                                 Forgot password?
                             </Link>
-                        </Grid> */}
+                        </Grid>
                         {error ? (
                             <Grid item sm={12} md={12}>
                                 <Box width="100%" pb={2}>

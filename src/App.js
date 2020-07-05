@@ -33,6 +33,7 @@ import Dashboard from "./components/Dashboard.js";
 import SignIn from "./components/General/SignIn.js";
 import SignUp from "./components/General/SignUp.js";
 import NotFoundPage from "./components/General/NotFoundPage.js";
+import ForgotPassword from "./components/General/ForgotPassword.js";
 
 /* -------------------------------------------------------------------------- */
 /*                               Create ws Link                               */
@@ -105,6 +106,7 @@ function App() {
                                 <Route exact path="/" title="Home " component={Home}/>
                                 <Route exact path="/signin" title="Signin " component={SignIn}/>
                                 <Route exact path="/signup" title="Signup " component={SignUp}/>
+                                <Route exact path="/forgot_passeord" title="Signup " component={ForgotPassword}/>
                                 <PrivateRoute  exact path="/Dashboard" title="Home" component={Dashboard} />
                                 <Route  path="/" title="Error " component={NotFoundPage}/>
                             </Switch>

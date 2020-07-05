@@ -9,7 +9,6 @@ import {
     CardMedia,
     Button,
     Avatar,
-    IconButton,
 } from "@material-ui/core";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";

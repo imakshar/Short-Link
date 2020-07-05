@@ -97,6 +97,19 @@ export const REMOVE_LINK = gql`
         remove_link(id: $id)
     }
 `;
+export const RESET_PASSWORD = gql`
+    mutation reset_password(
+        $email: String!
+        $token: String!
+        $new_password: String!
+    ) {
+        reset_password(
+            email: $email
+            token: $token
+            new_password: $new_password
+        )
+    }
+`;
 /* -------------------------------------------------------------------------- */
 /*                                Subscriptions                               */
 /* -------------------------------------------------------------------------- */
