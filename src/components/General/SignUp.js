@@ -85,10 +85,10 @@ const schema = Joi.object({
     confirm_password: Joi.ref("password"),
 });
 const initialState = {
-    name: "Akshar",
-    email: "J@x.com",
-    password: "asdfghjk",
-    confirm_password: "asdfghjk",
+    name: "",
+    email: "",
+    password: "",
+    confirm_password: "",
 };
 export default function SignUp() {
     const classes = useStyles();

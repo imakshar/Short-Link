@@ -48,8 +48,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const initialState = {
-    email: "j@x.co",
-    password: "asdfghjk",
+    email: "",
+    password: "",
 };
 export default function SignIn(props) {
     const classes = useStyles();

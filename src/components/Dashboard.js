@@ -231,7 +231,7 @@ const Dashboard = () => {
                                                 color="textSecondary"
                                             >
                                                 <em>
-                                                    {`Created at ${moment(
+                                                    {`Created  ${moment(
                                                         shortLinks[activeIndex]
                                                             ?.createdAt
                                                     ).fromNow()}`}
